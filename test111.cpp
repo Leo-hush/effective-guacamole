@@ -1,62 +1,60 @@
-#include <iostream>
-using namespace std;
-
 #ifndef LIMITVALUE_H
 #define LIMITVALUE_H
 
+#include <iostream>
+
+using namespace std;
+
 template <typename T>
 class LimitValue {
+private:
     T current_value;
     T min_value;
     T max_value;
 
 public:
-    LimitValue(T a, T b, T c) {
-        current_value = a;
-        min_value = b;
-        max_value = c;
-        if (current_value < min_value) 
+    LimitValue(T init, T min_val, T max_val) {
+        min_value = min_val;
+        max_value = max_val;
+        current_value = init;
+
+        if (current_value < min_value) {
             current_value = min_value;
-        if (current_value > max_value) 
+            cout << "初始值太小 改成最小值\n";
+        }
+        if (current_value > max_value){
             current_value = max_value;
+            cout << "初始值太大 已经改最大值\n";
+        }
     }
 
-    T val() { 
-        return current_value; 
+    T val() const {
+        return current_value;
     }
 
-    LimitValue& operator=(T x) {
-        current_value = x;
-        if (current_value < min_value) 
-            current_value = min_value;
-        if (current_value > max_value) 
+    LimitValue& operator=(T new_val) {
+        current_value = new_val;
+
+        if (current_value < min_value) current_value = min_value;
+        else if (current_value > max_value) {
             current_value = max_value;
+        }
+
         return *this;
     }
 
-    LimitValue& operator+=(T y) {
-        current_value += y;
-        if (current_value < min_value) 
-            current_value = min_value;
-        if (current_value > max_value) 
-            current_value = max_value;
-        return *this;
-    }
+    LimitValue& operator+=(T delta) {
+        current_value += delta;
 
-    LimitValue& operator++() {
-        current_value++;
-        if (current_value < min_value) 
+        if (current_value < min_value) {
             current_value = min_value;
-        if (current_value > max_value) 
+        }
+        if (current_value > max_value) {
             current_value = max_value;
-        return *this;
-    }
+        }
 
-    friend ostream& operator<<(ostream& out, LimitValue lv) {
-        out << lv.current_value;
-        return out;
+        return *this;
     }
 };
 
 #endif
-}

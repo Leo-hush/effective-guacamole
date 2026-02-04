@@ -1,7 +1,6 @@
+#include <iostream>
 #ifndef LIMITVALUE_H
 #define LIMITVALUE_H
-
-#include <iostream>
 
 using namespace std;
 
@@ -49,7 +48,7 @@ public:
         if (current_value < min_value) {
             current_value = min_value;
         }
-        if (current_value > max_value) {
+        else if (current_value > max_value) {
             current_value = max_value;
         }
 

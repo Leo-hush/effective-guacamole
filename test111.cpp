@@ -21,7 +21,7 @@ public:
             current_value = min_value;
             cout << "初始值太小 改成最小值\n";
         }
-        if (current_value > max_value){
+        if (current_value > max_value) {
             current_value = max_value;
             cout << "初始值太大 已经改最大值\n";
         }
@@ -53,6 +53,10 @@ public:
         }
 
         return *this;
+    }
+
+    bool operator<(const LimitValue& other) const {
+        return current_value < other.current_value;
     }
 };
 

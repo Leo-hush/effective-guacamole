@@ -1,2 +1,2 @@
 # effective-guacamole
-To study
+study!

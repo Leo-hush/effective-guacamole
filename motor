@@ -1,0 +1,70 @@
+#include <iostream>
+
+class Motor {
+public:
+    virtual void GetSpeed() = 0;
+    virtual void SetOutput(int power) = 0;
+    virtual void Update() = 0;
+    virtual ~Motor() {}
+};
+
+class MotorA : public Motor {
+private:
+    int speed;
+    int current;
+public:
+    MotorA() : speed(1000), current(0) {}
+
+    void GetSpeed() override {
+        std::cout << "电机A：当前速度为 " << speed << " rpm。" << std::endl;
+    }
+
+    void SetOutput(int power) override {
+        current = power;
+        std::cout << "[CAN BUS] ID: 0x201, Send Current: " << current << " mA" << std::endl;
+    }
+
+    void Update() override {
+        std::cout << "电机A：更新状态，模拟 CAN 通信。" << std::endl;
+        speed += (current - 50);  // 简单模拟：电流影响速度
+    }
+};
+
+class MotorB : public Motor {
+private:
+    int speed;
+    int power;
+public:
+    MotorB() : speed(1200), power(0) {}
+
+    void GetSpeed() override {
+        std::cout << "电机B：当前速度为 " << speed << " rpm。" << std::endl;
+    }
+
+    void SetOutput(int power) override {
+        this->power = power;
+        std::cout << "[CAN BUS] ID: 0x202, Send Power: " << power << " W" << std::endl;
+    }
+
+    void Update() override {
+        std::cout << "电机B：更新状态，模拟物理惯性模型。" << std::endl;
+        speed += (power - 30);  // 简单模拟：功率影响速度
+    }
+};
+
+void TestMotor(Motor* motor) {
+    motor->GetSpeed();
+    motor->SetOutput(500);
+    motor->Update();
+    motor->GetSpeed();
+}
+
+int main() {
+    MotorA motorA;
+    MotorB motorB;
+
+    TestMotor(&motorA);
+    TestMotor(&motorB);
+
+    return 0;
+}
